@@ -599,3 +599,20 @@ hr { display: none; }
 	padding: 10px 0px 21px 0px;
 	letter-spacing: 0px;
 }
+
+/* Publication list styles */
+ol.pub-list {
+	list-style: decimal;
+	padding-left: 28px;
+	margin: 6px 0 18px 0;
+}
+
+ol.pub-list li.pub-item {
+	font-size: 13px;
+	line-height: 1.6;
+	margin-bottom: 6px;
+}
+
+ol.pub-list li.pub-item em {
+	font-style: italic;
+}
