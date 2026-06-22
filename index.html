@@ -381,6 +381,18 @@
 								<div class="post">
 									<h2 class="title">Publications</h2>
 									<div class="entry">
+										<div id="centerAlignLinks" class="pub-filter-controls">
+											<div id="crumbs">
+												<ul>
+													<li><a href="#publication_" id="pub-filter-category">Category</a></li>
+													<li><a href="#publication_" id="pub-filter-year">Year</a></li>
+													<li><a href="#publication_" id="pub-filter-topic">Topic</a></li>
+													<li><a href="#publication_" id="pub-filter-all">All</a></li>
+												</ul>
+											</div>
+										</div>
+										<div id="pub-filter-note" class="meta" style="margin-bottom: 1.25rem;"></div>
+										<div id="pub-filter-output" style="display: none;"></div>
 										<p class="meta"><b>Books</b></p>
 										<ol reversed class="pub-list">
 											<li class="pub-item">M. T. Thai, H. Phan, and B. Thuraisingham (eds), <em>Handbook on Trustworthy Federated Learning</em>, Springer Nature, 2024. ISBN: 978-3031589256</li>
@@ -691,6 +703,210 @@
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
+			<script>
+				(function() {
+					function extractYear(text) {
+						var matches = text.match(/\b(19|20)\d{2}\b/g);
+						if (!matches || matches.length === 0) {
+							return "Unknown";
+						}
+						var maxYear = matches[0];
+						for (var i = 1; i < matches.length; i++) {
+							if (parseInt(matches[i], 10) > parseInt(maxYear, 10)) {
+								maxYear = matches[i];
+							}
+						}
+						return maxYear;
+					}
+
+					function inferTopics(text) {
+						var topicRules = [
+							{ name: "AI / Machine Learning", pattern: /(ai|machine learning|neural|federated|llm|deep learning|learning|vision-language|explainable|explainability)/i },
+							{ name: "Blockchain", pattern: /blockchain|bitcoin|cryptocurrency|sharding|transaction/i },
+							{ name: "Security / Privacy", pattern: /security|privacy|attack|adversarial|differential privacy|vulnerability|secure|cyber/i },
+							{ name: "Social Networks", pattern: /social network|misinformation|influence|community|viral/i },
+							{ name: "Optimization / Algorithms", pattern: /optimization|approximation|algorithm|submodular|maximization|interdiction/i },
+							{ name: "Quantum Computing", pattern: /quantum|annealing|embedding/i },
+							{ name: "Networking / Systems", pattern: /network|wireless|sensor|routing|communication|smart grid|iot/i },
+							{ name: "Bioinformatics / Healthcare", pattern: /bioinformatics|alzheimer|disease|genome|medical|clinical|enzyme/i }
+						];
+
+						var topics = [];
+						for (var i = 0; i < topicRules.length; i++) {
+							if (topicRules[i].pattern.test(text)) {
+								topics.push(topicRules[i].name);
+							}
+						}
+						if (topics.length === 0) {
+							topics.push("Other");
+						}
+						return topics;
+					}
+
+					function initPublicationFilters() {
+						var publicationEntry = document.querySelector("#publication .entry");
+						if (!publicationEntry) {
+							return;
+						}
+
+						var output = document.getElementById("pub-filter-output");
+						var note = document.getElementById("pub-filter-note");
+						var categoryLink = document.getElementById("pub-filter-category");
+						var yearLink = document.getElementById("pub-filter-year");
+						var topicLink = document.getElementById("pub-filter-topic");
+						var allLink = document.getElementById("pub-filter-all");
+
+						if (!output || !note || !categoryLink || !yearLink || !topicLink || !allLink) {
+							return;
+						}
+
+						var sectionHeaders = publicationEntry.querySelectorAll("p.meta > b");
+						var sections = [];
+						var allItems = [];
+
+						for (var i = 0; i < sectionHeaders.length; i++) {
+							var sectionName = sectionHeaders[i].textContent.trim();
+							var headingP = sectionHeaders[i].closest("p");
+							var listEl = headingP ? headingP.nextElementSibling : null;
+
+							if (!headingP || !listEl || listEl.tagName !== "OL" || !listEl.classList.contains("pub-list")) {
+								continue;
+							}
+
+							var section = {
+								name: sectionName,
+								headingEl: headingP,
+								listEl: listEl,
+								items: []
+							};
+
+							var listItems = listEl.querySelectorAll("li.pub-item");
+							for (var j = 0; j < listItems.length; j++) {
+								var text = listItems[j].textContent;
+								var record = {
+									category: sectionName,
+									year: extractYear(text),
+									topics: inferTopics(text),
+									html: listItems[j].innerHTML
+								};
+								section.items.push(record);
+								allItems.push(record);
+							}
+
+							sections.push(section);
+						}
+
+						function showStatic() {
+							for (var i = 0; i < sections.length; i++) {
+								sections[i].headingEl.style.display = "";
+								sections[i].listEl.style.display = "";
+							}
+							output.style.display = "none";
+							output.innerHTML = "";
+							note.textContent = "Showing all publications.";
+						}
+
+						function showDynamic(grouped, titleOrder, label) {
+							for (var i = 0; i < sections.length; i++) {
+								sections[i].headingEl.style.display = "none";
+								sections[i].listEl.style.display = "none";
+							}
+
+							var html = "";
+							for (var k = 0; k < titleOrder.length; k++) {
+								var key = titleOrder[k];
+								var items = grouped[key] || [];
+								if (items.length === 0) {
+									continue;
+								}
+								html += '<div class="post"><h2 class="title">' + key + '</h2><div class="entry"><ol reversed class="pub-list">';
+								for (var m = 0; m < items.length; m++) {
+									html += '<li class="pub-item">' + items[m].html + '</li>';
+								}
+								html += "</ol></div></div>";
+							}
+
+							output.innerHTML = html;
+							output.style.display = "block";
+							note.textContent = "Grouped by " + label + ".";
+						}
+
+						function showByCategory() {
+							var grouped = {};
+							var order = [];
+							for (var i = 0; i < sections.length; i++) {
+								grouped[sections[i].name] = sections[i].items.slice();
+								order.push(sections[i].name);
+							}
+							showDynamic(grouped, order, "Category");
+						}
+
+						function showByYear() {
+							var grouped = {};
+							for (var i = 0; i < allItems.length; i++) {
+								var year = allItems[i].year;
+								if (!grouped[year]) {
+									grouped[year] = [];
+								}
+								grouped[year].push(allItems[i]);
+							}
+
+							var order = Object.keys(grouped).sort(function(a, b) {
+								if (a === "Unknown") return 1;
+								if (b === "Unknown") return -1;
+								return parseInt(b, 10) - parseInt(a, 10);
+							});
+
+							showDynamic(grouped, order, "Year");
+						}
+
+						function showByTopic() {
+							var grouped = {};
+							for (var i = 0; i < allItems.length; i++) {
+								for (var j = 0; j < allItems[i].topics.length; j++) {
+									var topic = allItems[i].topics[j];
+									if (!grouped[topic]) {
+										grouped[topic] = [];
+									}
+									grouped[topic].push(allItems[i]);
+								}
+							}
+
+							var order = Object.keys(grouped).sort(function(a, b) {
+								if (a === "Other") return 1;
+								if (b === "Other") return -1;
+								return a.localeCompare(b);
+							});
+
+							showDynamic(grouped, order, "Topic");
+						}
+
+						categoryLink.addEventListener("click", function(e) {
+							e.preventDefault();
+							showByCategory();
+						});
+
+						yearLink.addEventListener("click", function(e) {
+							e.preventDefault();
+							showByYear();
+						});
+
+						topicLink.addEventListener("click", function(e) {
+							e.preventDefault();
+							showByTopic();
+						});
+
+						allLink.addEventListener("click", function(e) {
+							e.preventDefault();
+							showStatic();
+						});
+
+						showStatic();
+					}
+
+					document.addEventListener("DOMContentLoaded", initPublicationFilters);
+				})();
+			</script>
 			<script src="assets/js/browser.min.js"></script>
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>

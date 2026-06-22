@@ -506,7 +506,14 @@ hr { display: none; }
 
 /** Change for Publication Page */
 
- 
+#pub-filter-output {
+    clear: both;
+}
+
+#pub-filter-note {
+    clear: left;
+}
+
 #crumbs {
     text-align: center;
     /* margin-bottom: -17px; */

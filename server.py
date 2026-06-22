@@ -6,7 +6,7 @@ import socketserver
 import os
 import webbrowser
 
-PORT = 8002
+PORT = 8004
 HOST = "127.0.0.1"
 
 if __name__ == "__main__":
