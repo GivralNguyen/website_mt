@@ -112,6 +112,10 @@
 							// Activate article.
 								$article.addClass('active');
 
+							// Move keyboard focus into the article (not on initial page load).
+								if (!initial)
+									$article[0].focus({ preventScroll: true });
+
 							// Unlock.
 								locked = false;
 
@@ -148,6 +152,9 @@
 									setTimeout(function() {
 
 										$article.addClass('active');
+
+										// Move keyboard focus into the article.
+											$article[0].focus({ preventScroll: true });
 
 										// Window stuff.
 											$window
@@ -187,6 +194,9 @@
 									setTimeout(function() {
 
 										$article.addClass('active');
+
+										// Move keyboard focus into the article.
+											$article[0].focus({ preventScroll: true });
 
 										// Window stuff.
 											$window
@@ -238,6 +248,9 @@
 								// $footer.show();
 								$header.show();
 
+							// Return keyboard focus to the nav link that opened the article.
+								$nav.find('a[href="#' + $article.attr('id') + '"]').trigger('focus');
+
 							// Unmark as visible.
 								$body.removeClass('is-article-visible');
 
@@ -273,6 +286,9 @@
 							// $footer.show();
 							$header.show();
 
+						// Return keyboard focus to the nav link that opened the article.
+							$nav.find('a[href="#' + $article.attr('id') + '"]').trigger('focus');
+
 						// Unmark as visible.
 							setTimeout(function() {
 
@@ -300,11 +316,20 @@
 
 				var $this = $(this);
 
+				// Make the article focusable so keyboard focus can move into it.
+					$this.attr('tabindex', '-1');
+
 				// Close.
-					$('<div class="close">Close</div>')
+					$('<div class="close" role="button" tabindex="0" aria-label="Close">Close</div>')
 						.appendTo($this)
 						.on('click', function() {
 							location.hash = '';
+						})
+						.on('keydown', function(event) {
+							if (event.key === 'Enter' || event.key === ' ') {
+								event.preventDefault();
+								location.hash = '';
+							}
 						});
 
 				// Prevent clicks from inside article from bubbling.
@@ -315,6 +340,19 @@
 			});
 
 		// Events.
+			// Skip link: jump into the open article, or to the navigation when none is open.
+			$('.skip-link').on('click', function(event) {
+
+				event.preventDefault();
+				event.stopPropagation();
+
+				if ($body.hasClass('is-article-visible'))
+					$main_articles.filter('.active').trigger('focus');
+				else
+					$nav.find('a').first().trigger('focus');
+
+			});
+
 			$body.on('click', function(event) {
 
 				// Article visible? Hide.

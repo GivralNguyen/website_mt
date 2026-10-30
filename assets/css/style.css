@@ -200,6 +200,10 @@ hr { display: none; }
 	letter-spacing: 3px;
 }
 
+.post h3.title {
+	line-height: 1.4;
+}
+
 .post .title a {
 	text-decoration: none;
 	color: #104d7a;
@@ -537,7 +541,13 @@ hr { display: none; }
  
 #crumbs ul li a:hover {
     background: #FE4A00;
+    color: #000;
     font-size: 15px;
+}
+
+#crumbs ul li a[aria-pressed="true"] {
+    background: #FE4A00;
+    color: #000;
 }
 
   dl {
@@ -569,6 +579,7 @@ hr { display: none; }
  color: #ffffff;
  margin-left: 109px;
  line-height: 18px;
+ overflow-wrap: anywhere;
  }
  .authorname{
  font-size: 14px;

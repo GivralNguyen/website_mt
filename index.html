@@ -337,7 +337,7 @@
 													We ask how to uncover the mechanisms behind learned behavior, coordinate decisions efficiently under limited resources,
 													and establish reliability, privacy, and security guarantees under uncertainty and adversarial conditions.</p>
 												<p>We address these questions through mathematical analysis, algorithm design, and experimental validation.
-													For more information, visit the <a target="_blank" rel="noopener noreferrer" href="http://optnetsci.cise.ufl.edu/" aria-label="Thái Lab website (opens in new tab)"><span style="color: red;">Thái Lab website</span></a>.</p>
+													For more information, visit the <a target="_blank" rel="noopener noreferrer" href="http://optnetsci.cise.ufl.edu/" aria-label="Thái Lab website (opens in new tab)"><span style="color: #ff6b6b;">Thái Lab website</span></a>.</p>
 										</div>
 									</div>
 									<div class="post">
@@ -385,19 +385,19 @@
 										<h2 class="title">Recent Courses</h2>
 										<div class="entry">
 											<p class="meta"><b>2025-2026</b></p>
-											<p class="metaindents">Spring 2026: CIS6930: Distributed Machine Learning</a></p>
+											<p class="metaindents">Spring 2026: CIS6930: Distributed Machine Learning</p>
 											<p class="meta"><b>2021-2022</b></p>
-											<p class="metaindents">Advanced Blockchain </a></p>
+											<p class="metaindents">Advanced Blockchain</p>
 											<p class="meta"><b>2019-2020</b></p>
-											<p class="metaindents">Spring 2020: CIS6930: Blockchain: Optimization and Applications</a></p>
+											<p class="metaindents">Spring 2020: CIS6930: Blockchain: Optimization and Applications</p>
 											<p class="meta"><b>2018-2019</b></p>
-											<p class="metaindents">Spring 2019: COT5442: Approximation Algorithms</a></p>
+											<p class="metaindents">Spring 2019: COT5442: Approximation Algorithms</p>
 											<p class="meta"><b>2017-2018</b></p>
-											<p class="metaindents">Fall 2017: COT5442: Approximation Algorithms</a></p>
+											<p class="metaindents">Fall 2017: COT5442: Approximation Algorithms</p>
 			
 											<!-- <p class="meta"><b>2015-2016</b></p> -->
-										<div> 
-									<div> 
+										</div>
+									</div>
 								</div>
 							</article>
 							<article id="publication_">
@@ -409,9 +409,9 @@
 										<div id="centerAlignLinks">
 											<div id="crumbs">
 												<ul>
-													<li><a href="#publication_" id="pub-filter-category">Category</a></li>
-													<li><a href="#publication_" id="pub-filter-year">Year</a></li>
-													<li><a href="#publication_" id="pub-filter-topic">Topic</a></li>
+													<li><a href="#publication_" id="pub-filter-category" role="button" aria-pressed="false" aria-controls="dataFromFile">Category</a></li>
+													<li><a href="#publication_" id="pub-filter-year" role="button" aria-pressed="false" aria-controls="dataFromFile">Year</a></li>
+													<li><a href="#publication_" id="pub-filter-topic" role="button" aria-pressed="false" aria-controls="dataFromFile">Topic</a></li>
 												</ul>
 											</div>
 										</div>
@@ -484,7 +484,7 @@
 						var html = "";
 						for (var k = 0; k < order.length; k++) {
 							var items = groups[order[k]];
-							html += '<div class="post"><h2 class="title">' + order[k] + '</h2><div class="entry"><dl class="metaNum">';
+							html += '<div class="post"><h3 class="title">' + order[k] + '</h3><div class="entry"><dl class="metaNum">';
 							for (var m = 0; m < items.length; m++) {
 								html += '<dt class="confname">' + items[m].venue + '</dt>' +
 									'<dd><div class="pubname">' + items[m].title + '</div><div class="authorname">' + items[m].authors + '</div></dd>';
@@ -510,13 +510,27 @@
 							.then(function(text) {
 								var entries = parse(text);
 								var links = [["pub-filter-category", CATEGORY], ["pub-filter-year", YEAR], ["pub-filter-topic", TOPIC]];
+								var show = function(field) {
+									render(entries, field);
+									links.forEach(function(link) {
+										document.getElementById(link[0]).setAttribute("aria-pressed", link[1] === field ? "true" : "false");
+									});
+								};
 								links.forEach(function(link) {
-									document.getElementById(link[0]).addEventListener("click", function(e) {
+									var control = document.getElementById(link[0]);
+									control.addEventListener("click", function(e) {
 										e.preventDefault();
-										render(entries, link[1]);
+										show(link[1]);
+									});
+									// These links act as buttons (role="button"), so Space must work too.
+									control.addEventListener("keydown", function(e) {
+										if (e.key === " ") {
+											e.preventDefault();
+											show(link[1]);
+										}
 									});
 								});
-								render(entries, YEAR);
+								show(YEAR);
 							})
 							.catch(function() {
 								output.textContent = "Publications could not be loaded.";

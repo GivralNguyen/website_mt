@@ -1536,6 +1536,11 @@ input, select, textarea {
 						background-color: rgba(255, 255, 255, 0.175);
 					}
 
+					/* Draw the focus ring inside the dark button, not over the painting. */
+					#header nav ul li a:focus-visible {
+						outline-offset: -4px;
+					}
+
 		#header nav.use-middle:after {
 			/* content: ''; */
 			display: block;
@@ -1600,8 +1605,39 @@ input, select, textarea {
 			}
 
 			#menu_but{
-				width: 95%;
+				width: 47%;
 			}
+
+			/* Four 173px nav items stop fitting in a row below ~730px, so stack them. */
+				#header nav ul {
+					-moz-flex-direction: column;
+					-webkit-flex-direction: column;
+					-ms-flex-direction: column;
+					flex-direction: column;
+					min-width: 10rem;
+					max-width: 100%;
+				}
+
+					#header nav ul li {
+						border-left: 0;
+						border-top: solid 1px #ffffff;
+						width: 100%;
+					}
+
+						#header nav ul li:first-child {
+							border-top: 0;
+						}
+
+						#header nav ul li a {
+							height: 3rem;
+							line-height: 3rem;
+							min-width: 0;
+							width: 100%;
+						}
+
+				#header nav.use-middle:after {
+					display: none;
+				}
 
 			#centerAlignLinks {
 				float: none;
@@ -1658,10 +1694,6 @@ input, select, textarea {
 				width: 227px;
 			}
 
-			#menu_but{
-				width: 47%;
-			}
-
 			#student{
 				float:none;
 				width: 100%;
@@ -1690,36 +1722,6 @@ input, select, textarea {
 				#header .content .inner {
 					padding: 0px 10px 10px 10px;
 					/* font-size: 10px; */
-				}
-
-				#header nav ul {
-					-moz-flex-direction: column;
-					-webkit-flex-direction: column;
-					-ms-flex-direction: column;
-					flex-direction: column;
-					min-width: 10rem;
-					max-width: 100%;
-				}
-
-					#header nav ul li {
-						border-left: 0;
-						border-top: solid 1px #ffffff;
-						width: 100%;
-					}
-
-						#header nav ul li:first-child {
-							border-top: 0;
-						}
-
-						#header nav ul li a {
-							height: 3rem;
-							line-height: 3rem;
-							min-width: 0;
-							width: 100%;
-						}
-
-				#header nav.use-middle:after {
-					display: none;
 				}
 
 		}
@@ -1793,6 +1795,15 @@ input, select, textarea {
 				text-indent: 4rem;
 				overflow: hidden;
 				white-space: nowrap;
+			}
+
+				#main article .close:focus-visible {
+					outline: 3px solid #ffd24d;
+					outline-offset: -3px;
+				}
+
+			#main article:focus {
+				outline: none;
 			}
 
 				#main article .close:before {
