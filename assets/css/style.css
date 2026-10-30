@@ -533,18 +533,18 @@ hr { display: none; }
 #crumbs button {
     display: block;
     height: auto;
-    min-height: 2.75rem;
+    min-height: 2em;
     max-width: 100%;
     background: #191919;
     text-align: center;
-    padding: 0.5rem 1rem;
+    padding: 0.25em 0.75em;
     text-decoration: none;
     color: #fff;
     border: 1px solid;
-    border-radius: 12px;
+    border-radius: 6px;
     box-shadow: none;
     font: inherit;
-    font-size: 1rem;
+    font-size: inherit;
     line-height: 1.5;
     letter-spacing: normal;
     text-transform: none;

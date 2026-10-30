@@ -10,9 +10,9 @@ Scope: `index.html`, its home screen and four section views, all three publicati
 - **Text resizing, reflow, and spacing (1.4.4, 1.4.10, 1.4.12):** Removed fixed-height controls, conflicting line heights, excessive publication indents, and absolute vertical positioning that could clip the home screen. Narrow layouts stack their columns, text wraps, and font sizing respects the browser's default size.
 - **Keyboard and focus (2.1.1, 2.1.2, 2.4.1, 2.4.3, 2.4.7):** Native Close and grouping buttons, a working skip link, deterministic section changes, focus restoration on Close/Escape, and visible focus rings. Malformed and nested URL fragments no longer break navigation.
 - **Page identification and controls (2.4.2, 4.1.2):** Section-specific document titles, named sections, native button behavior, and an exposed selected grouping state.
-- **Status messages (4.1.3):** A separate live status announces publication loading, grouping results, and errors without reading the entire publication collection. Controls remain disabled when data is unavailable.
+- **Status messages (4.1.3):** A separate live status announces publication loading, grouping results, and errors without reading the entire publication collection. Successful grouping messages are visually hidden while remaining available to screen readers; loading and error messages stay visible. Controls remain disabled when data is unavailable.
 - **Non-text contrast (1.4.11):** Focused navigation links have an opaque dark backing. Selected grouping has an underline as well as a color change. Forced-colors mode retains visible Close text and focus indicators.
-- **Resilience:** Without JavaScript, all sections remain visible with a plain-text publication link. The text file contains the original inline markup and is a fallback, not a claimed conforming alternate version.
+- **JavaScript availability:** The plain-text publication link was removed at the owner’s request. Publications require JavaScript; when it is disabled, an explanatory message appears. Other section content remains visible, and publication loading failures receive an announced error with reload instructions.
 
 ## Verification
 

@@ -449,8 +449,7 @@
 											</div>
 										</div>
 										<p id="publication-status" role="status" aria-atomic="true"></p>
-										<noscript><p>JavaScript is needed to group publications. You can read the complete list below.</p></noscript>
-										<p><a href="input.txt">Read the complete publication list (plain text)</a>.</p>
+										<noscript><p>Please enable JavaScript to view and group publications.</p></noscript>
 										<div id="dataFromFile"></div>
 									</div>
 								</div>
@@ -551,6 +550,7 @@
 								var links = [["pub-filter-category", CATEGORY], ["pub-filter-year", YEAR], ["pub-filter-topic", TOPIC]];
 								var show = function(field) {
 									render(entries, field);
+									status.classList.add("sr-only");
 									status.textContent = entries.length + " publications grouped by " + ["category", "year", "topic"][field] + ".";
 									links.forEach(function(link) {
 										document.getElementById(link[0]).setAttribute("aria-pressed", link[1] === field ? "true" : "false");
@@ -567,7 +567,8 @@
 								show(YEAR);
 							})
 							.catch(function() {
-								status.textContent = "Publications could not be loaded. Use the complete publication list link below.";
+								status.classList.remove("sr-only");
+								status.textContent = "Publications could not be loaded. Please reload the page to try again.";
 							});
 					}
 
