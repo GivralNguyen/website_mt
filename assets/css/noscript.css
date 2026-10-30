@@ -35,3 +35,22 @@
 		opacity: 1;
 		margin: 4rem 0 0 0;
 	}
+
+/* Without scripted view switching, show every section in document order. */
+#header {
+	margin-bottom: 2rem;
+}
+
+#main {
+	flex-grow: 0;
+}
+
+#main article {
+	transform: none;
+	margin-top: 2rem;
+	padding-top: 2rem;
+}
+
+#centerAlignLinks {
+	display: none;
+}

@@ -516,38 +516,52 @@ hr { display: none; }
 }
  
 #crumbs ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
     list-style: none;
-    display: inline-table;
-}
-#crumbs ul li {
-    display: inline;
-}
- 
-#crumbs ul li a {
-    display: block;
-    float: left;
-    height: 18px;
-    background: #191919;
-    text-align: center;
-    padding: 3px 24px 27px 18px;
-    position: relative;
-    text-decoration: none;
-    color: #fff;
-    border:1px solid;
-    border-radius:12px;
-    margin-right: 7px;
-    font-size: 12pt;
-}
- 
-#crumbs ul li a:hover {
-    background: #FE4A00;
-    color: #000;
-    font-size: 15px;
+    padding: 0.25rem;
+    margin: 0;
 }
 
-#crumbs ul li a[aria-pressed="true"] {
+#crumbs ul li {
+    padding: 0;
+    max-width: 100%;
+}
+
+#crumbs button {
+    display: block;
+    height: auto;
+    min-height: 2.75rem;
+    max-width: 100%;
+    background: #191919;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid;
+    border-radius: 12px;
+    box-shadow: none;
+    font: inherit;
+    font-size: 1rem;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-transform: none;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+#crumbs button:hover,
+#crumbs button[aria-pressed="true"] {
     background: #FE4A00;
-    color: #000;
+    color: #000 !important;
+}
+
+#crumbs button[aria-pressed="true"] {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    font-weight: 600;
 }
 
   dl {

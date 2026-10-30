@@ -112,7 +112,8 @@ table {
 }
 
 body {
-	-webkit-text-size-adjust: none;
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
 }
 
 mark {
@@ -141,7 +142,7 @@ input, select, textarea {
 	@media screen and (max-width: 480px) {
 
 		html, body {
-			min-width: 320px;
+			min-width: 0;
 		}
 
 	}
@@ -181,13 +182,13 @@ input, select, textarea {
 /* Type */
 
 	html {
-		font-size: 16pt;
+		font-size: 133.333%;
 	}
 
 		@media screen and (max-width: 1680px) {
 
 			html {
-				font-size: 12pt;
+				font-size: 100%;
 			}
 
 		}
@@ -195,7 +196,7 @@ input, select, textarea {
 		@media screen and (max-width: 736px) {
 
 			html {
-				font-size: 11pt;
+				font-size: 100%;
 			}
 
 		}
@@ -203,7 +204,7 @@ input, select, textarea {
 		@media screen and (max-width: 360px) {
 
 			html {
-				font-size: 10pt;
+				font-size: 100%;
 			}
 
 		}
@@ -1294,7 +1295,7 @@ input, select, textarea {
 		@media screen and (max-width: 1680px) {
 
 			#wrapper {
-				padding: -2rem 2rem;
+				padding: 2rem;
 			}
 
 		}
@@ -1536,8 +1537,9 @@ input, select, textarea {
 						background-color: rgba(255, 255, 255, 0.175);
 					}
 
-					/* Draw the focus ring inside the dark button, not over the painting. */
+					/* Keep keyboard focus on an opaque surface regardless of the painting. */
 					#header nav ul li a:focus-visible {
+						background-color: #191919;
 						outline-offset: -4px;
 					}
 
@@ -1905,3 +1907,262 @@ input, select, textarea {
 			padding: 10px 0px 0px 0px;
 			height: 30px;
 		}
+
+
+/* Accessibility: let content grow with zoom, text spacing, and narrow viewports. */
+[hidden] {
+	display: none !important;
+}
+
+p, ul, ol {
+	line-height: 1.65;
+	text-align: left;
+}
+
+.skip-link {
+	position: fixed;
+	top: 1rem;
+	max-width: calc(100% - 2rem);
+	transform: translateY(calc(-100% - 2rem));
+	transition: transform 0.2s ease;
+}
+
+.skip-link:focus {
+	transform: translateY(0);
+}
+
+#wrapper {
+	justify-content: center;
+}
+
+#wrapper:before {
+	display: none;
+}
+
+#header {
+	position: relative;
+	top: auto;
+	transform: none;
+	margin: auto 0;
+	width: 100%;
+}
+
+#header .content {
+	max-width: 100%;
+}
+
+#header .content .inner {
+	display: flow-root;
+	overflow: visible;
+	text-align: left;
+}
+
+#header .content p,
+#header .content .inner > :last-child {
+	line-height: 1.5;
+}
+
+#header nav,
+#header nav ul,
+#header nav ul li {
+	min-width: 0;
+	max-width: 100%;
+}
+
+#header nav ul {
+	flex-wrap: wrap;
+}
+
+#header nav ul li a {
+	height: auto;
+	min-height: 2.75rem;
+	min-width: 0;
+	padding: 0.65rem 1rem;
+	line-height: 1.5;
+	overflow-wrap: anywhere;
+}
+
+.profile_img {
+	max-width: 100%;
+	height: auto;
+}
+
+#name_pic {
+	height: auto;
+	overflow-wrap: anywhere;
+}
+
+#main {
+	width: 100%;
+	min-width: 0;
+}
+
+#main article {
+	min-width: 0;
+	padding-top: 4.5rem;
+	overflow-wrap: anywhere;
+}
+
+#main article .close {
+	width: auto;
+	max-width: calc(100% - 1rem);
+	height: auto;
+	min-height: 2.75rem;
+	top: 0.5rem;
+	right: 0.5rem;
+	padding: 0.5rem 0.75rem;
+	border: 1px solid currentColor;
+	background-color: #191919;
+	box-shadow: none;
+	font-family: inherit;
+	font-size: 0.875rem;
+	line-height: 1.5;
+	letter-spacing: normal;
+	text-transform: none;
+	text-indent: 0;
+	white-space: normal;
+	overflow: visible;
+}
+
+#main article .close:before {
+	display: none;
+}
+
+#main article:focus-visible {
+	outline: 3px solid #ffd24d;
+	outline-offset: -3px;
+}
+
+.post {
+	display: flow-root;
+	overflow: visible;
+}
+
+.post .entry {
+	padding-top: 0;
+	text-align: left;
+}
+
+.post .meta {
+	margin-top: 0;
+	padding-top: 0;
+	line-height: 1.5;
+}
+
+.post .metaindents {
+	margin-top: 0;
+	line-height: 1.5;
+}
+
+.post .content-list {
+	list-style: disc outside;
+	margin: 0 0 1rem;
+	padding-left: 1.25rem;
+	font-size: 0.875rem;
+	line-height: 1.5;
+}
+
+.post .content-list > .meta {
+	background: none;
+	padding: 0;
+	margin: 0 0 0.625rem;
+	font-size: inherit;
+}
+
+.post .subheading {
+	margin: 1rem 0 0.5rem;
+	font-size: 0.875rem;
+	font-weight: 600;
+	line-height: 1.5;
+	letter-spacing: normal;
+	text-transform: none;
+}
+
+.post .subheading:first-child {
+	margin-top: 0;
+}
+
+.post .metaNum {
+	display: grid;
+	grid-template-columns: minmax(0, 9rem) minmax(0, 1fr);
+	column-gap: 1rem;
+	row-gap: 1rem;
+	padding: 0;
+	line-height: 1.5;
+}
+
+.post .metaNum dt,
+.post .metaNum dd {
+	float: none;
+	width: auto;
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.pubname,
+.authorname {
+	margin-left: 0;
+	line-height: 1.5;
+}
+
+@media screen and (max-width: 736px) {
+	#wrapper {
+		padding: 1rem 0;
+	}
+
+	#header .profile_pic {
+		float: none;
+		padding: 1rem;
+	}
+
+	#menu_but {
+		width: min(100%, 20rem);
+		left: auto;
+	}
+
+	#student {
+		float: none;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+	}
+
+	.post .metaNum {
+		grid-template-columns: minmax(0, 1fr);
+		row-gap: 0.25rem;
+	}
+
+	.post .metaNum dt {
+		text-align: left;
+	}
+
+	.post .metaNum dd {
+		margin-bottom: 1rem;
+	}
+}
+
+/* Keep controls and selected states visible in Windows high contrast mode. */
+@media (forced-colors: active) {
+	#bg {
+		display: none;
+	}
+
+	#header .content,
+	#main article {
+		background: Canvas;
+		color: CanvasText;
+	}
+
+	a:focus-visible,
+	button:focus-visible,
+	#main article .close:focus-visible,
+	#main article:focus-visible,
+	.skip-link:focus {
+		outline-color: Highlight;
+	}
+
+	#crumbs button[aria-pressed="true"] {
+		border: 3px solid Highlight;
+	}
+}
