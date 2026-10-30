@@ -593,8 +593,7 @@ hr { display: none; }
 
 
 
-#pub_note{
-	font-size: 13px;
-	padding: 10px 0px 21px 0px;
-	letter-spacing: 0px;
+#dataFromFile{
+	clear: both;
+	padding-top: 10px;
 }
